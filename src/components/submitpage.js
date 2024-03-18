@@ -48,8 +48,8 @@ export default function SubmitPage(){
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'd27416aaefmsh9ffbe40b3afc4d5p1125f4jsne5be79526ad7',
-                'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+                'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
+                'X-RapidAPI-Host': process.env.REACT_APP_API_HOST
             }
         };
 
@@ -68,8 +68,8 @@ export default function SubmitPage(){
         e.disabled = true;
         // getting result from judge0api
         const myHeaders = new Headers();
-        myHeaders.append("X-RapidAPI-Key", "d27416aaefmsh9ffbe40b3afc4d5p1125f4jsne5be79526ad7");
-        myHeaders.append("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com");
+        myHeaders.append("X-RapidAPI-Key", process.env.REACT_APP_API_KEY);
+        myHeaders.append("X-RapidAPI-Host", process.env.REACT_APP_API_HOST);
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
