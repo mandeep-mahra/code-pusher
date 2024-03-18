@@ -45,7 +45,7 @@ export default function SubmitPage(){
     }
 
     async function resolveToken(token){
-        const url = 'https://judge0-ce.p.rapidapi.com/submissions/'+token+'?base64_encoded=false&fields=*';
+        const url = 'https://judge0-ce.p.rapidapi.com/submissions/'+token+'?base64_encoded=false&fields=*&wait=true';
         const options = {
             method: 'GET',
             headers: {
@@ -57,6 +57,7 @@ export default function SubmitPage(){
         try {
             const response = await fetch(url, options);
             const result = await response.json();
+            console.log(result);
             uploadData(result.stdout);
             
         } catch (error) {
@@ -91,7 +92,7 @@ export default function SubmitPage(){
             redirect: "follow"
         };
 
-        fetch("https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false&fields=*", requestOptions)
+        fetch("https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false&fields=*&wait=true", requestOptions)
         .then((response) => response.json())
         .then((res) => {
             resolveToken(res.token);
