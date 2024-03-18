@@ -3,7 +3,7 @@ import logo from "../resources/logo.png";
 import App from '../App.js'
 
 const judge0LangIds = {
-    "C++" : 76,
+    "C++" : 52,
     "Java" : 91,
     "JavaScript" : 93,
     "Python" : 71
