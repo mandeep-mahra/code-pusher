@@ -7,6 +7,7 @@ export default function Submissions(){
         fetch(process.env.REACT_APP_BACKENDSERVERURL+"/submissionList")
         .then((res)=> res.json())
         .then((res)=> {
+            res.reverse();
             res.map((curr) => {
                 const time = new Date(curr.timeStamp);
                 curr.timeStamp = time.toLocaleString();
