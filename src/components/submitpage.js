@@ -79,7 +79,7 @@ export default function SubmitPage(){
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
-            "source_code": code,
+            "source_code": code.replace(/(?:\r\n|\r|\n)/g, ' \\n '),
             "language_id": judge0LangIds[lang],
             "stdin": stdin
         });
