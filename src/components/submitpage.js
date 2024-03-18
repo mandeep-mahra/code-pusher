@@ -27,7 +27,7 @@ export default function SubmitPage(){
             "name": name,
             "lang": lang,
             "stdin": stdin,
-            "code": code,
+            "code": code.replace(/(?:\r\n|\r|\n)/g, ' \\n '),
             "result":token
         });
 
@@ -68,7 +68,6 @@ export default function SubmitPage(){
     async function handleSubmit(e){
         e.preventDefault();
         e.disabled = true;
-        
         if(name === "" || stdin === "" || code === ""){
             setMessage("Please fill all fileds");
             return;
