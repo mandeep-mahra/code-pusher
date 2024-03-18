@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react"
 
-const judge0LangIds = {
-    "C++" : 76,
-    "Java" : 91,
-    "JavaScript" : 93,
-    "Python" : 71
-}
-
 export default function Submissions(){
     const [data, setData] = useState([]);
     
     useEffect(()=>{
         fetch(process.env.REACT_APP_BACKENDSERVERURL+"/submissionList")
         .then((res)=> res.json())
-        .then((res)=> setData(res));
+        .then((res)=> {
+            res.map((curr) => {
+                const time = new Date(curr.timeStamp);
+                curr.timeStamp = time.toLocaleString();
+            })
+            setData(res)
+        });
     }, [])
+    
     return(
         <div className="min-vh-100 contain  d-flex flex-column justify-content-center align-items-center">
             <h4 className="mt-4">Submission List</h4>

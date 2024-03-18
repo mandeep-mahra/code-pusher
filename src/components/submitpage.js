@@ -2,6 +2,13 @@ import { useState } from "react";
 import logo from "../resources/logo.png";
 import App from '../App.js'
 
+const judge0LangIds = {
+    "C++" : 76,
+    "Java" : 91,
+    "JavaScript" : 93,
+    "Python" : 71
+}
+
 
 export default function SubmitPage(){
     const [name, setName] = useState("");
@@ -9,46 +16,18 @@ export default function SubmitPage(){
     const [stdin, setStdin] = useState("");
     const [code, setCode] = useState("");
     const [done, setDone] = useState(false);
-    const [result, setResult] = useState("");
     
-    async function handleSubmit(e){
-        e.preventDefault();
-        e.disabled = true;
-        // getting result from judge0api
-        const url = 'https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false&fields=*';
-        const options = {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'Content-Type': 'application/json',
-                'X-RapidAPI-Key': 'd27416aaefmsh9ffbe40b3afc4d5p1125f4jsne5be79526ad7',
-                'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
-            },
-            body: {
-                language_id: 52,
-                source_code: code,
-                stdin: stdin
-            }
-        };
-
-        try {
-            const response = await fetch(url, options);
-            const res = await response.text();
-            console.log(setResult(res));
-        } catch (error) {
-            console.error(error);
-        }
-
-        //uploading data to mysql server
+    async function uploadData(token){
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
+        if(token === null)
+            token = "Error";
         const raw = JSON.stringify({
             "name": name,
             "lang": lang,
             "stdin": stdin,
             "code": code,
-            "result":result
+            "result":token
         });
 
         const requestOptions = {
@@ -62,6 +41,57 @@ export default function SubmitPage(){
         .then((response) => response.text())
         .then((result) => setDone(true))
         .catch((error) => console.error(error));
+    }
+
+    async function resolveToken(token){
+        const url = 'https://judge0-ce.p.rapidapi.com/submissions/'+token+'?base64_encoded=false&fields=*';
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'd27416aaefmsh9ffbe40b3afc4d5p1125f4jsne5be79526ad7',
+                'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            uploadData(result.stdout);
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function handleSubmit(e){
+        e.preventDefault();
+        e.disabled = true;
+        // getting result from judge0api
+        const myHeaders = new Headers();
+        myHeaders.append("X-RapidAPI-Key", "d27416aaefmsh9ffbe40b3afc4d5p1125f4jsne5be79526ad7");
+        myHeaders.append("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com");
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "source_code": code,
+            "language_id": judge0LangIds[lang],
+            "stdin": stdin
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false&fields=*", requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            resolveToken(res.token);
+        })
+        .catch((error) => console.error(error));
+        
     }
     return(
     !done?
