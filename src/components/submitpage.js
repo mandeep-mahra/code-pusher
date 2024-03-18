@@ -27,7 +27,7 @@ export default function SubmitPage(){
             body: {
                 language_id: 52,
                 source_code: code,
-                stdin: input
+                stdin: stdin
             }
         };
 

@@ -38,7 +38,7 @@ export default function Submissions(){
                         <td>{entry.timeStamp}</td>
                         <td>{entry.codeLanguage}</td>
                         <td>{entry.code.substr(0, 100)} {(entry.code.length > 100)?"...":""}</td>
-                        <td>AC</td>
+                        <td>{entry.result}</td>
                     </tr>
                 )}
             </tbody>
