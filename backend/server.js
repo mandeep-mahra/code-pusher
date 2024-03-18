@@ -44,8 +44,8 @@ app.post('/upload', async(request, response) => {
     try {
         const data = request.body;
         console.log(request.body);
-        const sql = "insert into userSubmissions (userName, codeLanguage, stdin, code) values (?, ?, ?, ?)"
-        const [rows, fields] = await pool.query(sql, [data.name, data.lang, data.stdin, data.code]);
+        const sql = "insert into userSubmissions (userName, codeLanguage, stdin, code, result) values (?, ?, ?, ?)"
+        const [rows, fields] = await pool.query(sql, [data.name, data.lang, data.stdin, data.code, data.result]);
         console.log(rows);
         console.log(fields);
         response.send("Uploaded")
