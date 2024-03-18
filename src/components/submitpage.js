@@ -16,6 +16,7 @@ export default function SubmitPage(){
     const [stdin, setStdin] = useState("");
     const [code, setCode] = useState("");
     const [done, setDone] = useState(false);
+    const [message, setMessage] = useState("");
     
     async function uploadData(token){
         const myHeaders = new Headers();
@@ -66,7 +67,12 @@ export default function SubmitPage(){
     async function handleSubmit(e){
         e.preventDefault();
         e.disabled = true;
-        // getting result from judge0api
+        
+        if(name === "" || stdin === "" || code === ""){
+            setMessage("Please fill all fileds");
+            return;
+        }
+
         const myHeaders = new Headers();
         myHeaders.append("X-RapidAPI-Key", process.env.REACT_APP_API_KEY);
         myHeaders.append("X-RapidAPI-Host", process.env.REACT_APP_API_HOST);
@@ -99,6 +105,7 @@ export default function SubmitPage(){
       <div className='contain min-vh-100 d-flex justify-content-center align-items-center flex-column'>
         <div className = "form-box p-5 rounded-4 shadow d-flex justify-content-center flex-column align-items-center" >
         <img className = "logo" src = {logo}/>
+        {message}
         <div className='inputform w-100'>
           <form className = "d-flex flex-column justify-content-center">
             <div className='d-flex justify-content-between'> 

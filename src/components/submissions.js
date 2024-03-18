@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import App from '../App.js';
+
 
 export default function Submissions(){
     const [data, setData] = useState([]);
+    const [done, setDone] = useState(true);
     
     useEffect(()=>{
         fetch(process.env.REACT_APP_BACKENDSERVERURL+"/submissionList")
@@ -17,8 +20,10 @@ export default function Submissions(){
     }, [])
     
     return(
+        (done)?
         <div className="min-vh-100 contain  d-flex flex-column justify-content-center align-items-center">
             <h4 className="mt-4">Submission List</h4>
+            <button onClick={()=> setDone(false)} className="btn btn-primary btn-sm mb-2">Home</button>
             <table className="table subListContain">
             <thead>
                 <tr>
@@ -44,6 +49,7 @@ export default function Submissions(){
                 )}
             </tbody>
             </table>
-        </div>
+        </div>:
+        <App submit = {true}/>
     )
 }
