@@ -46,7 +46,7 @@ export default function Submissions(){
                         <td>{entry.codeLanguage}</td>
                         <td>{entry.code.substr(0, 100)} {(entry.code.length > 100)?"...":""}</td>
                         <td>{entry.stdin}</td>
-                        <td>{entry.result.substr(0, 100)} {(entry.code.length > 100)?"...":""}</td>
+                        <td>{entry.result.substr(0, 100)} {(entry.result.length > 100)?"...":""}</td>
                     </tr>
                 )}
             </tbody>
