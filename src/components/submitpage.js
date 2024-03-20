@@ -1,6 +1,7 @@
 import { useState } from "react";
 import logo from "../resources/logo.png";
 import App from '../App.js'
+import {decode as base64_decode, encode as base64_encode} from 'base-64';
 
 const judge0LangIds = {
     "C++" : 52,
@@ -19,6 +20,7 @@ export default function SubmitPage(){
     const [message, setMessage] = useState("");
     
     async function uploadData(token){
+        
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         if(token === null)
@@ -27,7 +29,7 @@ export default function SubmitPage(){
             "name": name,
             "lang": lang,
             "stdin": stdin,
-            "code": code.replace(/(?:\r\n|\r|\n)/g, ' \\n '),
+            "code": code,
             "result":token
         });
 
@@ -57,7 +59,6 @@ export default function SubmitPage(){
         try {
             const response = await fetch(url, options);
             const result = await response.json();
-            console.log(result);
             uploadData(result.stdout);
             
         } catch (error) {
@@ -79,9 +80,9 @@ export default function SubmitPage(){
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
-            "source_code": code.replace(/(?:\r\n|\r|\n)/g, ' \\n '),
+            "source_code": base64_encode(code),
             "language_id": judge0LangIds[lang],
-            "stdin": stdin
+            "stdin": base64_encode(stdin)
         });
 
         const requestOptions = {
@@ -91,12 +92,18 @@ export default function SubmitPage(){
             redirect: "follow"
         };
 
-        fetch("https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false&fields=*&wait=true", requestOptions)
+        fetch("https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&fields=*&wait=true", requestOptions)
         .then((response) => response.json())
         .then((res) => {
-            resolveToken(res.token);
+            if(res.token !== undefined)
+                resolveToken(res.token);
+            else
+                uploadData("judge0 API limit reached. Try again later.");
+
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+            console.log(error);
+        });
         
     }
     return(
