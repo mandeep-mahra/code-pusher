@@ -3,6 +3,7 @@ import logo from "../resources/logo.png";
 import App from '../App.js'
 import {decode as base64_decode, encode as base64_encode} from 'base-64';
 import loading from '../resources/loading2.gif'
+import SyntaxHighlighter from 'react-syntax-highlighter';
 
 const judge0LangIds = {
     "C++" : 52,
@@ -108,7 +109,6 @@ export default function SubmitPage(){
         .catch((error) => {
             console.log(error);
         });
-        
     }
     return(
     !done?
@@ -134,8 +134,10 @@ export default function SubmitPage(){
             </div>
             <div className="d-flex gap-3 w-100 justify-content-between">
                 <div>
-                    <label htmlFor="code" className='mt-3'>Code</label>
-                    <textarea onChange={(e)=>{setCode(e.target.value)}} id="code" type="box" className = "code form-control" spellCheck = "false" required/>
+                    <label htmlFor="code" className='mt-3'>Code</label> 
+                    <code>
+                        <textarea onChange={(e)=>{setCode(e.target.value)}} id="code" type="box" className = "code form-control" spellCheck = "false" required/>
+                    </code>
                 </div>
                 <div>
                     <label htmlFor="inputType" className='mt-3'>Input</label>
