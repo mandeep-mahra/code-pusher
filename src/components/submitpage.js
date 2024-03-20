@@ -2,6 +2,7 @@ import { useState } from "react";
 import logo from "../resources/logo.png";
 import App from '../App.js'
 import {decode as base64_decode, encode as base64_encode} from 'base-64';
+import loading from '../resources/loading2.gif'
 
 const judge0LangIds = {
     "C++" : 52,
@@ -18,6 +19,7 @@ export default function SubmitPage(){
     const [code, setCode] = useState("");
     const [done, setDone] = useState(false);
     const [message, setMessage] = useState("");
+    const [buttonText, setButtonText] = useState(<>Submit</>);
     
     async function uploadData(token){
         
@@ -68,11 +70,13 @@ export default function SubmitPage(){
 
     async function handleSubmit(e){
         e.preventDefault();
-        e.disabled = true;
+        e.target.disabled = true;
         if(name === "" || stdin === "" || code === ""){
             setMessage("Please fill all fileds");
             return;
         }
+
+        setButtonText(<img className = "load" src = {loading}></img>);
 
         const myHeaders = new Headers();
         myHeaders.append("X-RapidAPI-Key", process.env.REACT_APP_API_KEY);
@@ -113,7 +117,7 @@ export default function SubmitPage(){
         <div className = "form-box p-5 rounded-4 shadow d-flex justify-content-center flex-column align-items-center" >
         <img className = "logo" src = {logo}/>
         {message}
-        <div className='inputform w-100'>
+        <div className='inputform w-100 mt-4'>
           <form className = "d-flex flex-column justify-content-center">
             <div className='d-flex justify-content-between'> 
               <div>
@@ -140,7 +144,7 @@ export default function SubmitPage(){
             </div>
             <div className="d-flex justify-content-center gap-4">
                 <button onClick={()=>(setDone(true))} className="buttons bg-secondary text-light mt-2 form-control mt-3">Submissions page</button>
-                <button onClick={(e) => handleSubmit(e)} type="submit" className='buttons bg-primary text-light mt-2 form-control mt-3'>Submit</button>
+                <button onClick={(e) => handleSubmit(e)} type="submit" className='buttons bg-primary text-light mt-2 form-control mt-3'>{buttonText}</button>
             </div>
           </form>
         </div>

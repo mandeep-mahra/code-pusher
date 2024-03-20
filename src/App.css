@@ -22,5 +22,9 @@
   width : 70vw;
 }
 .buttons{
-  width : 30vh;
+  font-size: 1.25vw;
+  width : 15vw;
+}
+.load{
+  height: 3vh;
 }
