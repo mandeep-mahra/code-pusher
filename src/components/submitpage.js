@@ -138,8 +138,9 @@ export default function SubmitPage(){
                     <textarea onChange={(e)=>{setStdin(e.target.value)}} id="inputType" className='codearea code form-control' spellCheck = "false" required/>
                 </div>
             </div>
-            <div className="d-flex justify-content-end">
-                <button onClick={(e) => handleSubmit(e)} type="submit" className='bg-primary text-light mt-2 form-control mt-3 w-25'>Submit</button>
+            <div className="d-flex justify-content-center gap-4">
+                <button onClick={()=>(setDone(true))} className="buttons bg-secondary text-light mt-2 form-control mt-3">Submissions page</button>
+                <button onClick={(e) => handleSubmit(e)} type="submit" className='buttons bg-primary text-light mt-2 form-control mt-3'>Submit</button>
             </div>
           </form>
         </div>

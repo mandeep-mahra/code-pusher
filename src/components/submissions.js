@@ -32,6 +32,7 @@ export default function Submissions(){
                 <th scope="col">Time</th>
                 <th scope="col">Language</th>
                 <th scope="col">Code</th>
+                <th scope="col">stdin</th>
                 <th scope="col">Result</th>
                 </tr>
             </thead>
@@ -44,6 +45,7 @@ export default function Submissions(){
                         <td>{entry.timeStamp}</td>
                         <td>{entry.codeLanguage}</td>
                         <td>{entry.code.substr(0, 100)} {(entry.code.length > 100)?"...":""}</td>
+                        <td>{entry.stdin}</td>
                         <td>{entry.result}</td>
                     </tr>
                 )}
